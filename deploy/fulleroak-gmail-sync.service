@@ -1,0 +1,19 @@
+[Unit]
+Description=Sync Gmail lead notifications into Fulleroak CRM
+After=network-online.target fulleroak-crm.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=fulleroak
+Group=fulleroak
+WorkingDirectory=/opt/fulleroak-crm
+EnvironmentFile=/etc/fulleroak-crm.env
+EnvironmentFile=-/etc/fulleroak-sync.env
+ExecStart=/opt/fulleroak-crm/.venv/bin/python lead_pipeline.py --credentials /var/lib/fulleroak-crm/gmail/credentials.json --token /var/lib/fulleroak-crm/gmail/token.json --database /var/lib/fulleroak-crm/leads.db --download-dir /var/lib/fulleroak-crm --transcript-dir /var/lib/fulleroak-crm/transcripts --exports-dir /var/lib/fulleroak-crm/exports
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/var/lib/fulleroak-crm
+

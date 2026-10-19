@@ -1,0 +1,22 @@
+[Unit]
+Description=Fulleroak CRM
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=fulleroak
+Group=fulleroak
+WorkingDirectory=/opt/fulleroak-crm
+EnvironmentFile=/etc/fulleroak-crm.env
+ExecStart=/opt/fulleroak-crm/.venv/bin/python serve_crm.py --host 127.0.0.1 --port 5050
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/var/lib/fulleroak-crm
+
+[Install]
+WantedBy=multi-user.target

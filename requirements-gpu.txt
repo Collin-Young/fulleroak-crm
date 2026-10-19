@@ -1,0 +1,3 @@
+-r requirements.txt
+nvidia-cublas-cu12>=12,<13; platform_system == "Windows"
+nvidia-cudnn-cu12>=9,<10; platform_system == "Windows"

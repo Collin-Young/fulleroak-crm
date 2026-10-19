@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: fulleroak-crm
+    runtime: python
+    plan: starter
+    region: ohio
+    buildCommand: pip install -r requirements-render.txt
+    startCommand: python serve_crm.py --host 0.0.0.0
+    autoDeployTrigger: commit
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.9
+      - key: CRM_DATA_DIR
+        value: /opt/render/project/src/data
+      - key: CRM_SECURE_COOKIES
+        value: "true"
+      - key: CRM_SECRET_KEY
+        generateValue: true
+      - key: CRM_DATA_ENCRYPTION_KEY
+        generateValue: true
+      - key: TRANSCRIPTION_PROVIDER
+        value: openrouter
+      - key: ANALYSIS_PROVIDER
+        value: openrouter
+    disk:
+      name: crm-data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 5
